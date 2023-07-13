@@ -77,8 +77,6 @@ while running:
             jump_count -= 1
 
 
-
-
     if player_anim_count == 3:   # анимация персонажа
         player_anim_count = 0
     else:

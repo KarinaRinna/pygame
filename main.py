@@ -28,6 +28,14 @@ walk_left = [         #создаем список
     pygame.image.load('images/player_left/4.png')
 ]
 
+player_speed = 5  # скорость игрока
+player_x = 200    # расположение игрока по x
+player_y = 620    # расположение по y
+
+is_jump = False # отслеживание прыжка
+jump_count = 7  # высота прыжка
+
+
 player_anim_count = 0  # флаг анимации персонажа
 bg_x = 0               # флаг фона
 
@@ -44,12 +52,38 @@ while running:
   #   screen.blit(text_surface, (300, 100))   # выводим текст на экран
     screen.blit(bg, (bg_x, 0))           # выводим на экран задний фон
     screen.blit(bg, (bg_x + 1600, 0))     # выводим фон правее
-    screen.blit(walk_right[player_anim_count], (200, 620))     # выводим игрока
+
+    keys = pygame.key.get_pressed()  # переменная где пользователь нажимает кнопку
+    if keys[pygame.K_a]:  # если нажимаем a то движемся влево анимации
+        screen.blit(walk_left[player_anim_count], (player_x, player_y))     # выводим игрока
+    else:
+        screen.blit(walk_right[player_anim_count], (player_x, player_y))
+
+
+    if keys[pygame.K_a] and player_x > 50:     # если нажмем на кнопку a (если меньше 50 то не двигается)
+        player_x -= player_speed  # отнимаем скорость у игрока
+    elif keys[pygame.K_d] and player_x < 1550:     # если нажмем на кнопку d  (если больше 1550 то не двигается)
+        player_x += player_speed  # добавляем скорость игроку
+
+    if not is_jump:   # если мы НЕ прыгаем
+        if keys[pygame.K_SPACE]:  # если нажали на пробел
+            is_jump = True     # прыжок начинается
+    else:
+        if jump_count >= -7:  # пока прыжок ниже -7
+            if jump_count > 0: # если прыжок > 0 то поднимаем игрока
+                player_y -= (jump_count ** 2) / 2
+            else:
+                player_y += (jump_count ** 2) / 2
+            jump_count -= 1
+
+
+
 
     if player_anim_count == 3:   # анимация персонажа
         player_anim_count = 0
     else:
         player_anim_count += 1
+
 
     bg_x -= 8 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
     if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
@@ -64,8 +98,8 @@ while running:
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата
         #         screen.fill(('blue'))       # делаем фон синим
-    clock.tick(15)    #часы количество обновлений кадров 20
+    clock.tick(20)    #часы количество обновлений кадров 20
 
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
-# 5 0:00
+# 5 12:40

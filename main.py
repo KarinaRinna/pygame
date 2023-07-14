@@ -14,6 +14,7 @@ pygame.display.set_icon(icon)                # вписываем перемен
 # myfont = pygame.font.Font('fonts/Roboto-Regular.ttf', 40)  #создаем переменную и пишем путь к шрифту и размер шрифта
 # text_surface = myfont.render('Надпись', True, 'Red')  #переменная в которую устанавливаем характеристики в надпись
                                                          #(надпись, сглаживание, цвет, фон)
+# Игрок
 bg = pygame.image.load('images/bg.png')   # создаем фоновый рисунок
 walk_right = [         #создаем список c картинками для анимации
     pygame.image.load('images/player_right/1.png'),
@@ -27,6 +28,9 @@ walk_left = [         #создаем список
     pygame.image.load('images/player_left/3.png'),
     pygame.image.load('images/player_left/4.png')
 ]
+
+duck = pygame.image.load('images/duck.png')   # создаем  рисунок врага
+duck_x = 1602  # враг стоит справа от экрана и потом появится
 
 player_speed = 5  # скорость игрока
 player_x = 200    # расположение игрока по x
@@ -52,6 +56,8 @@ while running:
   #   screen.blit(text_surface, (300, 100))   # выводим текст на экран
     screen.blit(bg, (bg_x, 0))           # выводим на экран задний фон
     screen.blit(bg, (bg_x + 1600, 0))     # выводим фон правее
+    screen.blit(duck,(duck_x, 580))  # выводим врага на экран на уровне персонажа
+
 
     keys = pygame.key.get_pressed()  # переменная где пользователь нажимает кнопку
     if keys[pygame.K_a]:  # если нажимаем a то движемся влево анимации
@@ -89,6 +95,8 @@ while running:
     bg_x -= 8 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
     if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
         bg_x = 0
+
+    duck_x -= 10 # делаем передвижение врага
 
     pygame.display.update()     # обновление экрана
 

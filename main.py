@@ -5,7 +5,7 @@ clock = pygame.time.Clock()   # добавляем часы (также в ко�
 pygame.init()
 screen = pygame.display.set_mode((1600, 724)) # flags = pygame.NOFRAME   # создаем дисплей
 pygame.display.set_caption('pygame_game')    # имя приложения
-icon = pygame.image.load('images/icon.png')  # создаем переменную где указываем путь к файлу
+icon = pygame.image.load('images/icon.png').convert_alpha()  # создаем переменную где указываем путь к файлу
 pygame.display.set_icon(icon)                # вписываем переменную
 
 # square = pygame.Surface((50,170))  # создаем квадрат с параметрами размера
@@ -15,22 +15,25 @@ pygame.display.set_icon(icon)                # вписываем перемен
 # text_surface = myfont.render('Надпись', True, 'Red')  #переменная в которую устанавливаем характеристики в надпись
                                                          #(надпись, сглаживание, цвет, фон)
 # Игрок
-bg = pygame.image.load('images/bg.png')   # создаем фоновый рисунок
+bg = pygame.image.load('images/bg.png').convert_alpha()   # создаем фоновый рисунок
 walk_right = [         #создаем список c картинками для анимации
-    pygame.image.load('images/player_right/1.png'),
-    pygame.image.load('images/player_right/2.png'),
-    pygame.image.load('images/player_right/3.png'),
-    pygame.image.load('images/player_right/4.png')
+    pygame.image.load('images/player_right/1.png').convert_alpha(),
+    pygame.image.load('images/player_right/2.png').convert_alpha(),
+    pygame.image.load('images/player_right/3.png').convert_alpha(),
+    pygame.image.load('images/player_right/4.png').convert_alpha()
 ]
 walk_left = [         #создаем список
-    pygame.image.load('images/player_left/1.png'),
-    pygame.image.load('images/player_left/2.png'),
-    pygame.image.load('images/player_left/3.png'),
-    pygame.image.load('images/player_left/4.png')
+    pygame.image.load('images/player_left/1.png').convert_alpha(),
+    pygame.image.load('images/player_left/2.png').convert_alpha(),
+    pygame.image.load('images/player_left/3.png').convert_alpha(),
+    pygame.image.load('images/player_left/4.png').convert_alpha()
 ]
 
-duck = pygame.image.load('images/duck.png')   # создаем  рисунок врага
-duck_x = 1602  # враг стоит справа от экрана и потом появится
+
+
+duck = pygame.image.load('images/duck.png').convert_alpha()   # создаем  рисунок врага
+# теперь выводим врага в цикле duck_x = 1602  # враг стоит справа от экрана и потом появится
+duck_lict_in_game = []  # список врагов
 
 player_speed = 5  # скорость игрока
 player_x = 200    # расположение игрока по x
@@ -46,6 +49,10 @@ bg_x = 0               # флаг фона
 bg_sound = pygame.mixer.Sound('sounds/bg.mp3') # создаем переменную звука фона
 bg_sound.play() # запускаем чтобы она постоянно играла
 
+duck_timer = pygame.USEREVENT + 1 # подключаем таймер
+pygame.time.set_timer(duck_timer, 3500) # промежутки через которые срабатывает таймер 3500 (3,5 секунд)
+
+
 running = True
 while running:
 
@@ -56,7 +63,17 @@ while running:
   #   screen.blit(text_surface, (300, 100))   # выводим текст на экран
     screen.blit(bg, (bg_x, 0))           # выводим на экран задний фон
     screen.blit(bg, (bg_x + 1600, 0))     # выводим фон правее
-    screen.blit(duck,(duck_x, 580))  # выводим врага на экран на уровне персонажа
+# больше не нужно выводить, так как выводится в цикле в списке    screen.blit(duck,(duck_x, 580))  # выводим врага на экран на уровне персонажа
+
+    player_rect = walk_left[0].get_rect(topleft=(player_x,player_y)) # создаем квадрат вокруг игрока
+
+    if duck_lict_in_game:  # есть ли элементы в списке
+        for el in duck_lict_in_game: # перебираем список
+            screen.blit(duck, el) # выводим  врага по координатам ( в коде duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580)))  )
+            el.x -= 10 # передвигаем врага к игроку
+
+            if player_rect.colliderect(el): # если квадраты игрока и врага соприкосаются
+                print('Вы проиграли')
 
 
     keys = pygame.key.get_pressed()  # переменная где пользователь нажимает кнопку
@@ -96,7 +113,7 @@ while running:
     if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
         bg_x = 0
 
-    duck_x -= 10 # делаем передвижение врага
+  #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
 
     pygame.display.update()     # обновление экрана
 
@@ -104,6 +121,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
+        if event.type == duck_timer: # отслеживание выполнения таймера
+            duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580))) # создаем врага
+
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата
         #         screen.fill(('blue'))       # делаем фон синим

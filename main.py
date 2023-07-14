@@ -33,7 +33,7 @@ player_x = 200    # расположение игрока по x
 player_y = 620    # расположение по y
 
 is_jump = False # отслеживание прыжка
-jump_count = 7  # высота прыжка
+jump_count = 9  # высота прыжка
 
 
 player_anim_count = 0  # флаг анимации персонажа
@@ -69,12 +69,15 @@ while running:
         if keys[pygame.K_SPACE]:  # если нажали на пробел
             is_jump = True     # прыжок начинается
     else:
-        if jump_count >= -7:  # пока прыжок ниже -7
+        if jump_count >= -9:  # пока прыжок ниже -9
             if jump_count > 0: # если прыжок > 0 то поднимаем игрока
                 player_y -= (jump_count ** 2) / 2
             else:
                 player_y += (jump_count ** 2) / 2
             jump_count -= 1
+        else:
+            is_jump = False # больше нет прыжка
+            jump_count = 9
 
 
     if player_anim_count == 3:   # анимация персонажа

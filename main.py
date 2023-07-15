@@ -30,7 +30,6 @@ walk_left = [         #создаем список
 ]
 
 
-
 duck = pygame.image.load('images/duck.png').convert_alpha()   # создаем  рисунок врага
 # теперь выводим врага в цикле duck_x = 1602  # враг стоит справа от экрана и потом появится
 duck_lict_in_game = []  # список врагов

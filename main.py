@@ -70,9 +70,12 @@ while running:
         player_rect = walk_left[0].get_rect(topleft=(player_x,player_y)) # создаем квадрат вокруг игрока
 
         if duck_lict_in_game:  # есть ли элементы в списке
-            for el in duck_lict_in_game: # перебираем список
+            for (i, el) in enumerate(duck_lict_in_game): # перебираем список
                 screen.blit(duck, el) # выводим  врага по координатам ( в коде duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580)))  )
                 el.x -= 10 # передвигаем врага к игроку
+
+                if el.x < -10: # если враг x=-10 то уничтожаем врага
+                    duck_lict_in_game.pop(i)
 
                 if player_rect.colliderect(el): # если квадраты игрока и врага соприкосаются
                     gameplay = False            # то gameplay=false и фон окрашивается

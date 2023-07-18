@@ -51,8 +51,12 @@ bg_sound.play() # запускаем чтобы она постоянно игр
 duck_timer = pygame.USEREVENT + 1 # подключаем таймер
 pygame.time.set_timer(duck_timer, 3500) # промежутки через которые срабатывает таймер 3500 (3,5 секунд)
 
-gameplay = True
+label = pygame.font.Font('fonts/Roboto-Regular.ttf', 40) # переменная с параметрами надписи
+lose_label = label.render('ВЫ ПРОИГРАЛИ !!!', False, (193, 196, 199)) # надпись проигрыша
+restart_label = label.render('Играть заново', False, (115, 132, 148)) # текст рестарт
 
+
+gameplay = True
 
 running = True
 while running:
@@ -119,6 +123,7 @@ while running:
             bg_x = 0
     else:
         screen.fill((87, 88, 89))  # если игра завершена то окрашиваем все в другой цвет
+        screen.blit(lose_label, (650, 300)) # вывод проигрыша на экран
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
 
@@ -138,4 +143,4 @@ while running:
 
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
-# 5 12:40
+# 7 08:10

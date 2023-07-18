@@ -51,6 +51,8 @@ bg_sound.play() # запускаем чтобы она постоянно игр
 duck_timer = pygame.USEREVENT + 1 # подключаем таймер
 pygame.time.set_timer(duck_timer, 3500) # промежутки через которые срабатывает таймер 3500 (3,5 секунд)
 
+gameplay = True
+
 
 running = True
 while running:
@@ -64,53 +66,56 @@ while running:
     screen.blit(bg, (bg_x + 1600, 0))     # выводим фон правее
 # больше не нужно выводить, так как выводится в цикле в списке    screen.blit(duck,(duck_x, 580))  # выводим врага на экран на уровне персонажа
 
-    player_rect = walk_left[0].get_rect(topleft=(player_x,player_y)) # создаем квадрат вокруг игрока
+    if gameplay:  # если gameplay = true то выполняем весь код снизу
+        player_rect = walk_left[0].get_rect(topleft=(player_x,player_y)) # создаем квадрат вокруг игрока
 
-    if duck_lict_in_game:  # есть ли элементы в списке
-        for el in duck_lict_in_game: # перебираем список
-            screen.blit(duck, el) # выводим  врага по координатам ( в коде duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580)))  )
-            el.x -= 10 # передвигаем врага к игроку
+        if duck_lict_in_game:  # есть ли элементы в списке
+            for el in duck_lict_in_game: # перебираем список
+                screen.blit(duck, el) # выводим  врага по координатам ( в коде duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580)))  )
+                el.x -= 10 # передвигаем врага к игроку
 
-            if player_rect.colliderect(el): # если квадраты игрока и врага соприкосаются
-                print('Вы проиграли')
-
-
-    keys = pygame.key.get_pressed()  # переменная где пользователь нажимает кнопку
-    if keys[pygame.K_a]:  # если нажимаем a то движемся влево анимации
-        screen.blit(walk_left[player_anim_count], (player_x, player_y))     # выводим игрока
-    else:
-        screen.blit(walk_right[player_anim_count], (player_x, player_y))
+                if player_rect.colliderect(el): # если квадраты игрока и врага соприкосаются
+                    gameplay = False            # то gameplay=false и фон окрашивается
 
 
-    if keys[pygame.K_a] and player_x > 50:     # если нажмем на кнопку a (если меньше 50 то не двигается)
-        player_x -= player_speed  # отнимаем скорость у игрока
-    elif keys[pygame.K_d] and player_x < 1550:     # если нажмем на кнопку d  (если больше 1550 то не двигается)
-        player_x += player_speed  # добавляем скорость игроку
-
-    if not is_jump:   # если мы НЕ прыгаем
-        if keys[pygame.K_SPACE]:  # если нажали на пробел
-            is_jump = True     # прыжок начинается
-    else:
-        if jump_count >= -9:  # пока прыжок ниже -9
-            if jump_count > 0: # если прыжок > 0 то поднимаем игрока
-                player_y -= (jump_count ** 2) / 2
-            else:
-                player_y += (jump_count ** 2) / 2
-            jump_count -= 1
+        keys = pygame.key.get_pressed()  # переменная где пользователь нажимает кнопку
+        if keys[pygame.K_a]:  # если нажимаем a то движемся влево анимации
+            screen.blit(walk_left[player_anim_count], (player_x, player_y))     # выводим игрока
         else:
-            is_jump = False # больше нет прыжка
-            jump_count = 9
+            screen.blit(walk_right[player_anim_count], (player_x, player_y))
 
 
-    if player_anim_count == 3:   # анимация персонажа
-        player_anim_count = 0
+        if keys[pygame.K_a] and player_x > 50:     # если нажмем на кнопку a (если меньше 50 то не двигается)
+            player_x -= player_speed  # отнимаем скорость у игрока
+        elif keys[pygame.K_d] and player_x < 1550:     # если нажмем на кнопку d  (если больше 1550 то не двигается)
+            player_x += player_speed  # добавляем скорость игроку
+
+        if not is_jump:   # если мы НЕ прыгаем
+            if keys[pygame.K_SPACE]:  # если нажали на пробел
+                is_jump = True     # прыжок начинается
+        else:
+            if jump_count >= -9:  # пока прыжок ниже -9
+                if jump_count > 0: # если прыжок > 0 то поднимаем игрока
+                    player_y -= (jump_count ** 2) / 2
+                else:
+                    player_y += (jump_count ** 2) / 2
+                jump_count -= 1
+            else:
+                is_jump = False # больше нет прыжка
+                jump_count = 9
+
+
+        if player_anim_count == 3:   # анимация персонажа
+            player_anim_count = 0
+        else:
+            player_anim_count += 1
+
+
+        bg_x -= 8 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
+        if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
+            bg_x = 0
     else:
-        player_anim_count += 1
-
-
-    bg_x -= 8 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
-    if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
-        bg_x = 0
+        screen.fill((87, 88, 89))  # если игра завершена то окрашиваем все в другой цвет
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
 

@@ -46,7 +46,9 @@ player_anim_count = 0  # флаг анимации персонажа
 bg_x = 0               # флаг фона
 
 bg_sound = pygame.mixer.Sound('sounds/bg.mp3') # создаем переменную звука фона
-bg_sound.play() # запускаем чтобы она постоянно играла
+bg_sound.play(-1) # запускаем чтобы она постоянно играла
+bg_sound.set_volume(0.5) # звук фоновой музыки
+
 
 duck_timer = pygame.USEREVENT + 1 # подключаем таймер
 pygame.time.set_timer(duck_timer, 3500) # промежутки через которые срабатывает таймер 3500 (3,5 секунд)
@@ -54,6 +56,8 @@ pygame.time.set_timer(duck_timer, 3500) # промежутки через кот
 label = pygame.font.Font('fonts/Roboto-Regular.ttf', 40) # переменная с параметрами надписи
 lose_label = label.render('ВЫ ПРОИГРАЛИ !!!', False, (193, 196, 199)) # надпись проигрыша
 restart_label = label.render('Играть заново', False, (115, 132, 148)) # текст рестарт
+restart_label_rect = restart_label.get_rect(topleft=(650, 400)) # координаты обводки рестарта
+
 
 
 gameplay = True
@@ -124,6 +128,8 @@ while running:
     else:
         screen.fill((87, 88, 89))  # если игра завершена то окрашиваем все в другой цвет
         screen.blit(lose_label, (650, 300)) # вывод проигрыша на экран
+        screen.blit(restart_label, restart_label_rect) # вывод кнопки рестарта
+
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
 
@@ -135,6 +141,9 @@ while running:
             pygame.quit()
         if event.type == duck_timer: # отслеживание выполнения таймера
             duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580))) # создаем врага
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_1:
+                pygame.mixer.music.pause()
 
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата

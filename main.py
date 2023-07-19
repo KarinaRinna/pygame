@@ -48,7 +48,8 @@ bg_x = 0               # флаг фона
 bg_sound = pygame.mixer.Sound('sounds/bg.mp3') # создаем переменную звука фона
 bg_sound.play(-1) # запускаем чтобы она постоянно играла
 bg_sound.set_volume(0.5) # звук фоновой музыки
-
+player_bounce = pygame.mixer.Sound('sounds/1.mp3') # звук прыжка
+# https://younglinux.info/pygame/mixer
 
 duck_timer = pygame.USEREVENT + 1 # подключаем таймер
 pygame.time.set_timer(duck_timer, 3500) # промежутки через которые срабатывает таймер 3500 (3,5 секунд)
@@ -104,6 +105,7 @@ while running:
         if not is_jump:   # если мы НЕ прыгаем
             if keys[pygame.K_SPACE]:  # если нажали на пробел
                 is_jump = True     # прыжок начинается
+                player_bounce.play() # активировать звук прыжка
         else:
             if jump_count >= -9:  # пока прыжок ниже -9
                 if jump_count > 0: # если прыжок > 0 то поднимаем игрока
@@ -141,9 +143,22 @@ while running:
             pygame.quit()
         if event.type == duck_timer: # отслеживание выполнения таймера
             duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580))) # создаем врага
-        elif event.type == pygame.KEYUP:
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                pygame.mixer.music.pause()
+                pygame.mixer.music.pause() # пауза на кнопку 1
+            elif event.key == pygame.K_2:
+                pygame.mixer.music.unpause()
+                # возобновляем фоновую музыку
+                pygame.mixer.music.set_volume(0.5)
+            elif event.key == pygame.K_3:
+                pygame.mixer.music.unpause()
+                # хз
+                pygame.mixer.music.set_volume(1)
+            elif event.key == pygame.K_3:
+                pygame.mixer.music.unpause()
+                # хз
+                pygame.mixer.music.set_volume(1)
+
 
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата

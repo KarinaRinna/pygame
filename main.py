@@ -45,10 +45,13 @@ jump_count = 9  # высота прыжка
 player_anim_count = 0  # флаг анимации персонажа
 bg_x = 0               # флаг фона
 
+pygame.mixer.init(44100, -16,2,2048)
+
 bg_sound = pygame.mixer.Sound('sounds/bg.mp3') # создаем переменную звука фона
 bg_sound.play(-1) # запускаем чтобы она постоянно играла
-bg_sound.set_volume(0.5) # звук фоновой музыки
+bg_sound.set_volume(0.3) # звук фоновой музыки
 player_bounce = pygame.mixer.Sound('sounds/1.mp3') # звук прыжка
+player_bounce.set_volume(0.4) # уровень звука прыжка
 # https://younglinux.info/pygame/mixer
 
 duck_timer = pygame.USEREVENT + 1 # подключаем таймер
@@ -158,6 +161,15 @@ while running:
                 pygame.mixer.music.unpause()
                 # хз
                 pygame.mixer.music.set_volume(1)
+            # elif event.type == pygame.QUIT:
+            #     bg_sound.stop()
+
+    # pygame.mixer.init(44100, -16,2,2048)
+    # for event in pygame.event.get():
+    #     if event.type == pygame.QUIT:
+    #         bg_sound.stop()
+
+
 
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата
@@ -166,4 +178,4 @@ while running:
 
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
-# 7 08:10
+# 7 10:00

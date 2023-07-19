@@ -159,7 +159,6 @@ while running:
                 # хз
                 pygame.mixer.music.set_volume(1)
 
-
         # elif event.type == pygame.KEYDOWN:  # если тип события = нажатие на клавиатуре
         #     if event.key == pygame.K_a:     # проверяем какая клавиша нажата
         #         screen.fill(('blue'))       # делаем фон синим

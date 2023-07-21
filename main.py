@@ -126,7 +126,7 @@ while running:
             player_anim_count += 1
 
 
-        bg_x -= 8 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
+        bg_x -= 4 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
         if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
             bg_x = 0
     else:
@@ -135,9 +135,10 @@ while running:
         screen.blit(restart_label, restart_label_rect) # вывод кнопки рестарта
 
         mouse = pygame.mouse.get_pos()   # создаем переменную и помещаем координаты мыши
-        if restart_label_rect.collidepoint(): # соприкасается ли квадрат с координатами мышки
-            gameplay = True
-
+        if restart_label_rect.collidepoint(mouse) and pygame.mouse.get_pressed()[0]: # соприкасается ли квадрат с координатами мышки и нажали ли мы на кнопку мыши
+            gameplay = True  # возобнавляем игру
+            player_x = 200   # возвращаем игрока обратно
+            duck_lict_in_game.clear()  # убираем врагов
 
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
@@ -182,4 +183,4 @@ while running:
 
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
-# 7 10:00
+# 8 00:00

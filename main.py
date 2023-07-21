@@ -134,6 +134,11 @@ while running:
         screen.blit(lose_label, (650, 300)) # вывод проигрыша на экран
         screen.blit(restart_label, restart_label_rect) # вывод кнопки рестарта
 
+        mouse = pygame.mouse.get_pos()   # создаем переменную и помещаем координаты мыши
+        if restart_label_rect.collidepoint(): # соприкасается ли квадрат с координатами мышки
+            gameplay = True
+
+
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
 

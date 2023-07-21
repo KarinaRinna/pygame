@@ -63,7 +63,6 @@ restart_label = label.render('Играть заново', False, (115, 132, 148)
 restart_label_rect = restart_label.get_rect(topleft=(650, 400)) # координаты обводки рестарта
 
 
-
 gameplay = True
 
 running = True

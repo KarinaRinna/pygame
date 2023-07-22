@@ -1,5 +1,7 @@
 import pygame
 
+image_path = '/data/data/org.test/myapp/files/app/'  # путь нужный для того чтобы бульдозер в апк
+
 clock = pygame.time.Clock()   # добавляем часы (также в конце цикла tick)
 
 pygame.init()

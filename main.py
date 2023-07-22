@@ -132,8 +132,6 @@ while running:
         if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
             bg_x = 0
 
-        if keys[pygame.K_r]: # если нажали r
-            bullets.append(bullet.get_rect(topleft=(player_x + 30, player_y + 10)))  #передаем квадрат пули в координаты где игрок
 
         if bullets:  # есть ли элементы в списке и выводим их
             for (i, el) in enumerate(bullets):
@@ -173,21 +171,27 @@ while running:
             pygame.quit()
         if event.type == duck_timer: # отслеживание выполнения таймера
             duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580))) # создаем врага
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
-                pygame.mixer.music.pause() # пауза на кнопку 1
-            elif event.key == pygame.K_2:
-                pygame.mixer.music.unpause()
-                # возобновляем фоновую музыку
-                pygame.mixer.music.set_volume(0.5)
-            elif event.key == pygame.K_3:
-                pygame.mixer.music.unpause()
-                # хз
-                pygame.mixer.music.set_volume(1)
-            elif event.key == pygame.K_3:
-                pygame.mixer.music.unpause()
-                # хз
-                pygame.mixer.music.set_volume(1)
+        if gameplay and event.type == pygame.KEYUP and event.key == pygame.K_r: # если мы в игре и тип события == нажатию клавиши 1 раз и нажатая клавиша r
+            bullets.append(bullet.get_rect(topleft=(player_x + 30, player_y + 10)))  #передаем квадрат пули в координаты где игрок
+
+
+
+
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_1:
+        #         pygame.mixer.music.pause() # пауза на кнопку 1
+        #     elif event.key == pygame.K_2:
+        #         pygame.mixer.music.unpause()
+        #         # возобновляем фоновую музыку
+        #         pygame.mixer.music.set_volume(0.5)
+        #     elif event.key == pygame.K_3:
+        #         pygame.mixer.music.unpause()
+        #         # хз
+        #         pygame.mixer.music.set_volume(1)
+        #     elif event.key == pygame.K_3:
+        #         pygame.mixer.music.unpause()
+        #         # хз
+        #         pygame.mixer.music.set_volume(1)
             # elif event.type == pygame.QUIT:
             #     bg_sound.stop()
 

@@ -62,6 +62,7 @@ lose_label = label.render('ВЫ ПРОИГРАЛИ !!!', False, (193, 196, 199))
 restart_label = label.render('Играть заново', False, (115, 132, 148)) # текст рестарт
 restart_label_rect = restart_label.get_rect(topleft=(650, 400)) # координаты обводки рестарта
 
+bullets_left = 5 # количество всех патронов 5
 bullet = pygame.image.load('images/bullet.png').convert_alpha() # патрон
 bullets = [] # список с выпущенными патронами
 
@@ -159,6 +160,7 @@ while running:
             player_x = 200   # возвращаем игрока обратно
             duck_lict_in_game.clear()  # убираем врагов
             bullets.clear()  # убираем пули после перезапуска
+            bullets_left = 5 # при рестарте патронов снова 5
 
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
@@ -171,8 +173,9 @@ while running:
             pygame.quit()
         if event.type == duck_timer: # отслеживание выполнения таймера
             duck_lict_in_game.append(duck.get_rect(topleft=(1620, 580))) # создаем врага
-        if gameplay and event.type == pygame.KEYUP and event.key == pygame.K_r: # если мы в игре и тип события == нажатию клавиши 1 раз и нажатая клавиша r
+        if gameplay and event.type == pygame.KEYUP and event.key == pygame.K_r and bullets_left > 0: # если мы в игре и тип события == нажатию клавиши 1 раз и нажатая клавиша r и если кол-во патрон больше 0
             bullets.append(bullet.get_rect(topleft=(player_x + 30, player_y + 10)))  #передаем квадрат пули в координаты где игрок
+            bullets_left -= 1 # за каждое нажатие кнопки отнимаем 1 патрон
 
 
 
@@ -209,7 +212,7 @@ while running:
 
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
-# 8 00:00
+# 9 00:00
 #
 # Спасибо, всё очень понятно, после просмотра видео прикрутил отображение счётчика патронов
 # ingame_label = pygame.font.Font('fonts/RobotoCondensed-Bold.ttf', 30) создал отображение текста поменьше

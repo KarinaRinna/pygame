@@ -143,6 +143,13 @@ while running:
                 if el.x > 1620: # если пуля за пределами экрана то удаляем
                     bullets.pop(i)  # удаляем i из списка bullets
 
+                if duck_lict_in_game:  # есть ли у нас есть враги
+                    for (index, duck_el) in enumerate(duck_lict_in_game):  # перебираем список (index) враг
+                        if el.colliderect(duck_el): # если патрон взаимодействует с врагом то
+                            duck_lict_in_game.pop(index)  # удаляем врага по его индексу
+                            bullets.pop(i) # удаляем i пулю
+
+
     else:
         screen.fill((87, 88, 89))  # если игра завершена то окрашиваем все в другой цвет
         screen.blit(lose_label, (650, 300)) # вывод проигрыша на экран

@@ -62,6 +62,8 @@ lose_label = label.render('ВЫ ПРОИГРАЛИ !!!', False, (193, 196, 199))
 restart_label = label.render('Играть заново', False, (115, 132, 148)) # текст рестарт
 restart_label_rect = restart_label.get_rect(topleft=(650, 400)) # координаты обводки рестарта
 
+bullet = pygame.image.load('images/bullet.png').convert_alpha() # патрон
+bullets = [] # список с выпущенными патронами
 
 gameplay = True
 
@@ -129,6 +131,18 @@ while running:
         bg_x -= 4 # каждый цикл сдвигаем основной фон влево, чтобы начинался правый фон
         if bg_x == -1600:  # когда фон сдвинется до конца, то опять ставим 1 картинку
             bg_x = 0
+
+        if keys[pygame.K_r]: # если нажали r
+            bullets.append(bullet.get_rect(topleft=(player_x + 30, player_y + 10)))  #передаем квадрат пули в координаты где игрок
+
+        if bullets:  # есть ли элементы в списке и выводим их
+            for (i, el) in enumerate(bullets):
+                screen.blit(bullet, (el.x, el.y))
+                el.x += 8    # передвигаем пулю
+
+                if el.x > 1620: # если пуля за пределами экрана то удаляем
+                    bullets.pop(i)  # удаляем i из списка bullets
+
     else:
         screen.fill((87, 88, 89))  # если игра завершена то окрашиваем все в другой цвет
         screen.blit(lose_label, (650, 300)) # вывод проигрыша на экран
@@ -139,6 +153,7 @@ while running:
             gameplay = True  # возобнавляем игру
             player_x = 200   # возвращаем игрока обратно
             duck_lict_in_game.clear()  # убираем врагов
+            bullets.clear()  # убираем пули после перезапуска
 
 
   #  duck_x -= 10 # делаем передвижение врага (теперь в списке врагов)
@@ -184,3 +199,16 @@ while running:
 
 # https://www.youtube.com/watch?v=TcRRWuQXNfU&list=PLDyJYA6aTY1mLtXrGH55paZHFjpqHdDol&index=2
 # 8 00:00
+#
+# Спасибо, всё очень понятно, после просмотра видео прикрутил отображение счётчика патронов
+# ingame_label = pygame.font.Font('fonts/RobotoCondensed-Bold.ttf', 30) создал отображение текста поменьше
+# bulets_left_ind = pygame.image.load('images/bulet_indic.png').convert_alpha()
+#
+#         screen.blit(bulets_left_ind, (500, 10))
+#         bulets_left_count = ingame_label.render((str(bulets_left)), True, (0, 0, 0))  создание текста с количеством патронов
+#         screen.blit(bulets_left_count, (550, 10))
+#
+#
+# последние три сразу после блока if bulets:
+# первые 2 до цикла while running:
+# 
